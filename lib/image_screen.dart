@@ -57,9 +57,11 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                           });
 
                           var url = Uri.parse(
-                            // 'https://flutter-sandbox.free.beeceptor.com/upload_photo/'
-                            'https://flutter-img.free.beeceptor.com/todos',
-                          );
+                              'https://flutter-sandbox.free.beeceptor.com/upload_photo/'
+
+                              // my test url link
+                              // 'https://flutter-img.free.beeceptor.com/todos',
+                              );
 
                           var request = http.MultipartRequest("POST", url)
                             ..headers['Content-Type'] = 'application/javascript'
@@ -98,6 +100,24 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                               debugPrint(
                                   'Успешный ответ от сервера: ${response.statusCode}');
                             } else {
+                              setState(() {
+                                _dataIsSending = false;
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  backgroundColor: Colors.white,
+                                  content: Text(
+                                    'Something went wrong, try again',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              );
+
+                              _commentController.clear();
+
+                              Navigator.pop(context);
+
                               debugPrint(
                                   'Ошибка запроса: ${response.statusCode}');
                             }
